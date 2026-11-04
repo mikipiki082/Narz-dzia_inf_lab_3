@@ -93,8 +93,6 @@ class TenantSettlement(BaseModel):
     transfers_sum: float
     balance: float
 
-
-
 class Manager:
     def __init__(self, parameters: Parameters):
         self.parameters = parameters 
@@ -103,7 +101,6 @@ class Manager:
         self.tenants = {}
         self.transfers = []
         self.bills = []
-       
         self.load_data()
 
     def load_data(self):
