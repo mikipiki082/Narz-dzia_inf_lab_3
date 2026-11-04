@@ -75,8 +75,9 @@ class Bill(BaseModel):
         assert isinstance(data, list), "Expected a list of bills"
         return [Bill(**bill) for bill in data]
     
+#Przepraszam, nie z tego konta commitowałem :(   
 class ApartmentSettlement:
-    apart: str
+    apartment: str
     settlement_year: int
     settlement_month: int
     total_bills_pln: float
