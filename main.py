@@ -1,8 +1,6 @@
 from pydantic import BaseModel
 from typing import Dict, List
-
 import json
-
 
 class Parameters(BaseModel):
     apartments_json_path: str = 'data/apartments.json'
@@ -10,11 +8,9 @@ class Parameters(BaseModel):
     transfers_json_path: str = 'data/transfers.json'
     bills_json_path: str = 'data/bills.json'
 
-
 class Room(BaseModel):
     name: str
     area_m2: float
-
 
 class Apartment(BaseModel):
     key: str
@@ -30,7 +26,6 @@ class Apartment(BaseModel):
             data = json.load(file)
         assert isinstance(data, dict), "Expected a dictionary of apartments"
         return {key: Apartment(**apartment) for key, apartment in data.items()}
-
     
 class Tenant(BaseModel):
     name: str
@@ -49,7 +44,6 @@ class Tenant(BaseModel):
         assert isinstance(data, dict), "Expected a dictionary of tenants"
         return {key: Tenant(**tenant) for key, tenant in data.items()}
     
-
 class Transfer(BaseModel):
     amount_pln: float
     date: str
@@ -64,7 +58,6 @@ class Transfer(BaseModel):
             data = json.load(file)
         assert isinstance(data, list), "Expected a list of transfers"
         return [Transfer(**transfer) for transfer in data]
-
 
 class Bill(BaseModel):
     amount_pln: float
@@ -82,6 +75,13 @@ class Bill(BaseModel):
         assert isinstance(data, list), "Expected a list of bills"
         return [Bill(**bill) for bill in data]
 
+class ApartmentSettlement:
+    apartment: str
+    settlement_year: int
+    settlement_month: int
+    total_bills_pln: float
+    total_rent_pln: float
+    remaining_pln: float
 
 class Manager:
     def __init__(self, parameters: Parameters):
@@ -99,7 +99,6 @@ class Manager:
         self.tenants = Tenant.from_json_file(self.parameters.tenants_json_path)
         self.transfers = Transfer.from_json_file(self.parameters.transfers_json_path)
         self.bills = Bill.from_json_file(self.parameters.bills_json_path)
-
 
 if __name__ == '__main__':
     parameters = Parameters()
